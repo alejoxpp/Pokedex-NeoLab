@@ -1,23 +1,6 @@
 <div align="center">
 
-# ⚡ POKÉDEX NEO LAB ⚡
-
-### _「 Tu Enciclopedia Pokémon Definitiva 」_
-
-<br>
-
-```
-    ╔══════════════════════════════════════════╗
-    ║   ◉  ● ● ●                              ║
-    ║  ┌──────────────────────────────────┐    ║
-    ║  │                                  │    ║
-    ║  │     ¡ G O T T A   C A T C H     │    ║
-    ║  │        ' E M   A L L !           │    ║
-    ║  │                                  │    ║
-    ║  └──────────────────────────────────┘    ║
-    ║     ▶  1025 Pokémon  ·  9 Generaciones  ║
-    ╚══════════════════════════════════════════╝
-```
+<img src="assets/banner.jpg" alt="Pokédex NEO LAB Banner" width="100%">
 
 <br>
 
@@ -257,21 +240,6 @@ MIT — Datos proporcionados por [PokeAPI](https://pokeapi.co/docs/v2).
 
 <div align="center">
 
-```
-    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⣿⣿⠟⠋⠉⠉⠋⠛⣿⣿⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⠃⠀⠀⠀⣤⣤⠀⠀⠀⢸⣿⣿⣿⣿⣿
-    ⣿⣿⣿⡏⠀⠀⠀⣾⣿⣿⡇⠀⠀⠈⣿⣿⣿⣿⣿
-    ⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛
-    ⣿⣿⣿⣧⠀⠀⠀⠙⠻⠟⠁⠀⠀⢠⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⣿⣦⣀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⣿⣿⣿⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-```
-
-_Hecho con ❤️ y mucha Poké Ball_
-
-**⚡ Gotta Catch 'Em All! ⚡**
+<img src="assets/footer.jpg" alt="Hecho con amor y mucha Poké Ball" width="100%">
 
 </div>
