@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <meta name="description" content="Pokédex NEO LAB · Landing Page interactiva estilo Anime de Pokémon. Consume PokeAPI en tiempo real con GSAP, Anime.js, Arena 2vs2, Minijuego de Trivia y Equipo de 6 Pokémon.">
+  <meta name="theme-color" content="#E3350D">
+  <title>Pokédex NEO LAB · Landing Page Anime & PokeAPI</title>
+  
+  <!-- Favicon Pokédex SVG -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23E3350D'/%3E%3Ccircle cx='50' cy='50' r='32' fill='none' stroke='%231a1a1a' stroke-width='7'/%3E%3Ccircle cx='50' cy='50' r='14' fill='%23fff' stroke='%231a1a1a' stroke-width='5'/%3E%3Ccircle cx='50' cy='50' r='6' fill='%23e8e8e8' stroke='%23aaa' stroke-width='1.5'/%3E%3C/svg%3E">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/pokedex.css">
+
+  <!-- GSAP 3 & Plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+  <!-- Anime.js -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+</head>
+<body>
+
+  <!-- Topbar Pokédex Case con Luces LED del Anime -->
+  <header class="pokedex-topbar" role="banner">
+    <div class="topbar-container">
+      
+      <!-- Luces LED Clásicas de la Pokédex -->
+      <div class="pokedex-leds">
+        <div class="big-blue-lens" id="pokedexLens" title="Lente de Escaneo Pokédex">
+          <div class="lens-glare"></div>
+        </div>
+        <div class="mini-leds">
+          <span class="mini-led led-red" title="Sensor de energía"></span>
+          <span class="mini-led led-yellow" title="Conexión de datos"></span>
+          <span class="mini-led led-green" title="Estado de PokeAPI"></span>
+        </div>
+      </div>
+
+      <!-- Marca / Logo Oficial -->
+      <div class="brand">
+        <a href="#hero" class="brand-link">
+          <h1>POKÉDEX <span class="brand-highlight">NEO LAB</span></h1>
+          <p class="brand-tagline">Edición Anime · Sistema de Datos PokeAPI en Vivo</p>
+        </a>
+      </div>
+
+      <!-- Menú de Navegación Rápida -->
+      <nav class="pokedex-nav" aria-label="Navegación principal">
+        <a href="#hero" class="nav-link active">Inicio</a>
+        <a href="#trivia" class="nav-link">¿Quién es?</a>
+        <a href="#showcase" class="nav-link">Pokédex</a>
+        <a href="#arena" class="nav-link">Arena 2vs2</a>
+        <a href="#my-team" class="nav-link team-nav-link">
+          <span>Mi Equipo</span>
+          <span id="teamBadgeTop" class="team-badge">0/6</span>
+        </a>
+      </nav>
+
+      <!-- Herramientas Top -->
+      <div class="top-controls">
+        <div class="search-box">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input id="searchInput" type="text" placeholder="Buscar Pokémon (#025 o nombre)..." aria-label="Buscar Pokémon" autocomplete="off" spellcheck="false">
+          <button id="searchBtn" type="button" aria-label="Ejecutar búsqueda">Escanear</button>
+        </div>
+
+        <button id="themeToggle" class="btn-icon" aria-label="Cambiar tema claro/oscuro" title="Tema claro/oscuro">🌙</button>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION: Entrada Épica estilo Anime -->
+    <section id="hero" class="hero-section">
+      <div class="hero-glow-bg"></div>
+      <div class="hero-container">
+        
+        <div class="hero-content">
+          <div class="hero-badge">⚡ SISTEMA POKÉDEX V2.5 ONLINE</div>
+          <h2 class="hero-title">¡CONVIÉRTETE EN EL PRÓXIMO <span class="text-gradient">MAESTRO POKÉMON</span>!</h2>
+          <p class="hero-description">
+            Accede a la base de datos más completa del mundo Pokémon. Escanea más de 1,025 especies de las 9 generaciones, analiza estadísticas de combate en la Arena 2vs2, forma tu equipo para la Liga y pon a prueba tus conocimientos.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#showcase" class="btn-anime-primary">
+              <span class="btn-pokeball-icon"></span>
+              <span>¡Explorar Pokédex!</span>
+            </a>
+            <a href="#arena" class="btn-anime-secondary">
+              <span>⚔️ Desafiar en la Arena</span>
+            </a>
+            <a href="#trivia" class="btn-anime-ghost">
+              <span>🎯 ¿Quién es este Pokémon?</span>
+            </a>
+          </div>
+
+          <!-- Métricas del Anime -->
+          <div class="hero-stats-row">
+            <div class="stat-pill">
+              <b id="counterPokemon">1,025+</b>
+              <span>Pokémon Registrados</span>
+            </div>
+            <div class="stat-pill">
+              <b>18</b>
+              <span>Tipos Elementales</span>
+            </div>
+            <div class="stat-pill">
+              <b>9</b>
+              <span>Generaciones</span>
+            </div>
+            <div class="stat-pill">
+              <b style="color:var(--poke-yellow)">100%</b>
+              <span>Gritos Oficiales</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta Interactiva: Pokémon del Día -->
+        <div class="hero-showcase">
+          <div class="featured-card-wrapper" id="featuredWrapper">
+            <div class="featured-card" id="featuredCard">
+              <div class="featured-header">
+                <span class="featured-tag">⭐ POKÉMON DEL DÍA</span>
+                <span class="featured-id" id="featuredId">#025</span>
+              </div>
+              <div class="featured-art">
+                <div class="hologram-ring"></div>
+                <img id="featuredImg" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu" loading="eager">
+              </div>
+              <div class="featured-info">
+                <h3 id="featuredName" class="featured-name">Pikachu</h3>
+                <div id="featuredTypes" class="featured-types">
+                  <span class="badge type-electric">electric</span>
+                </div>
+                <p id="featuredDesc" class="featured-desc">
+                  Cuando se reúnen varios de estos Pokémon, su electricidad puede acumularse y provocar tormentas eléctricas.
+                </p>
+                <div class="featured-meta">
+                  <span>⚡ CP: <b id="featuredCP">320</b></span>
+                  <span>⚖️ <b id="featuredWeight">6.0 kg</b></span>
+                  <span>📏 <b id="featuredHeight">0.4 m</b></span>
+                </div>
+                <div class="featured-actions">
+                  <button id="featuredCryBtn" class="btn-sound" title="Escuchar sonido real">🔊 Grito Oficial</button>
+                  <button id="featuredDetailBtn" class="btn-detail">🔍 Ficha Completa</button>
+                  <button id="featuredTeamBtn" class="btn-add-team">⚡ Al Equipo</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BANNER DE STATUS / FEEDBACK -->
+    <div class="system-status-wrap">
+      <div id="statusContainer" class="system-status" role="status" aria-live="polite"></div>
+    </div>
+
+    <!-- SECCIÓN INTERMEDIA: ¿QUIÉN ES ESTE POKÉMON? (Anime Intermission) -->
+    <section id="trivia" class="trivia-section">
+      <div class="trivia-container">
+        <div class="trivia-header">
+          <div class="trivia-sub">CORTE COMERCIAL POKÉMON</div>
+          <h2 class="trivia-title">¡¿QUIÉN ES ESTE POKÉMON?!</h2>
+          <p>Identifica la silueta como en el anime clásico de televisión antes de que se revele.</p>
+        </div>
+
+        <div class="trivia-stage">
+          
+          <!-- Pantalla de la Silueta -->
+          <div class="trivia-screen" id="triviaScreen">
+            <div class="screen-lines"></div>
+            <div class="screen-pokeball-bg"></div>
+            <img id="triviaImg" class="trivia-silhouette" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="¿Quién es este Pokémon?">
+            <div id="triviaRevealFlash" class="reveal-flash"></div>
+          </div>
+
+          <!-- Opciones de Respuesta -->
+          <div class="trivia-interactive">
+            <div class="trivia-prompt" id="triviaPrompt">¿Cuál es el nombre de este Pokémon?</div>
+            <div class="trivia-options-grid" id="triviaOptions">
+              <!-- JS generará 4 botones dinámicos -->
+            </div>
+            
+            <div class="trivia-result" id="triviaResult" style="display:none">
+              <h3 id="triviaResultName">¡Es Pikachu!</h3>
+              <p id="triviaResultDesc">El Pokémon Ratón Eléctrico.</p>
+              <div class="trivia-actions">
+                <button id="triviaCryBtn" class="btn-sound">🔊 Escuchar Grito</button>
+                <button id="nextTriviaBtn" class="btn-anime-primary">¡Siguiente Pokémon! ➔</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN SHOWCASE / EXPLORADOR POKÉDEX -->
+    <section id="showcase" class="showcase-section">
+      <div class="section-header-wrap">
+        <div class="section-kicker">BASE DE DATOS COMPLETA</div>
+        <h2 class="section-heading">EXPLORADOR DE POKÉMON</h2>
+        <p class="section-subtext">Filtra por generación, busca por tipo elemental y examina las estadísticas oficiales de combate.</p>
+      </div>
+
+      <!-- Filtros Avanzados de la Pokédex -->
+      <div class="pokedex-filters-panel">
+        
+        <div class="filters-row-top">
+          <!-- Selector de Generaciones Anime -->
+          <div class="gen-selector-box">
+            <label for="genSelect" class="filter-title">Generación / Región:</label>
+            <select id="genSelect" class="select-anime" aria-label="Seleccionar Generación">
+              <option value="1">Kanto · Gen I (1-151)</option>
+              <option value="2">Johto · Gen II (152-251)</option>
+              <option value="3">Hoenn · Gen III (252-386)</option>
+              <option value="4">Sinnoh · Gen IV (387-493)</option>
+              <option value="5">Unova · Gen V (494-649)</option>
+              <option value="6">Kalos · Gen VI (650-721)</option>
+              <option value="7">Alola · Gen VII (722-809)</option>
+              <option value="8">Galar · Gen VIII (810-898)</option>
+              <option value="9">Paldea · Gen IX (899-1010)</option>
+              <option value="all">Todo el Mundo Pokémon (1-1025)</option>
+            </select>
+          </div>
+
+          <!-- Selector de Orden -->
+          <div class="sort-selector-box">
+            <label for="sortSelect" class="filter-title">Ordenar por:</label>
+            <select id="sortSelect" class="select-anime" aria-label="Ordenar resultados">
+              <option value="id-asc">Número Pokédex ↑</option>
+              <option value="id-desc">Número Pokédex ↓</option>
+              <option value="name-asc">Nombre A ➔ Z</option>
+              <option value="name-desc">Nombre Z ➔ A</option>
+              <option value="cp-desc">Mayor Poder Base (CP) ↓</option>
+            </select>
+          </div>
+
+          <!-- Contador de Resultados -->
+          <div class="results-badge" id="counter">
+            Cargando Pokédex…
+          </div>
+        </div>
+
+        <!-- Chips de Tipos Elementales -->
+        <div class="filters-row-types">
+          <span class="filter-title">Tipos Elementales:</span>
+          <div id="typeFilters" class="type-chips-grid" role="group" aria-label="Filtrar por tipo elemental">
+            <!-- JS generará los 18 tipos -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Grid de Tarjetas Pokédex -->
+      <div class="pokedex-catalog-wrap">
+        
+        <!-- Loader / Skeletons -->
+        <div id="loaderContainer" class="pokedex-loader" aria-hidden="true">
+          <div class="pokeball-spinner"></div>
+          <p id="loaderText">Sintonizando frecuencia con PokeAPI…</p>
+        </div>
+
+        <!-- Grilla de Pokémon -->
+        <div id="pokedexGrid" class="pokemon-grid" aria-live="polite" aria-busy="true">
+          <!-- JS inyectará las tarjetas -->
+        </div>
+
+        <!-- Centinela para Infinite Scroll y Botón Cargar Más -->
+        <div id="sentinel" class="infinite-sentinel" aria-hidden="true"></div>
+        <div class="load-more-wrap">
+          <button id="loadMore" class="btn-anime-primary btn-load-more" type="button">
+            Cargar más Pokémon +24
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECCIÓN ARENA DE BATALLA 2VS2 (Gimnasio Pokémon) -->
+    <section id="arena" class="arena-section">
+      <div class="section-header-wrap">
+        <div class="section-kicker">SIMULADOR DE COMBATE</div>
+        <h2 class="section-heading">ARENA DE BATALLA 2VS2</h2>
+        <p class="section-subtext">Selecciona 2 Pokémon con el botón <b>⚔️</b> de su tarjeta para comparar sus 6 estadísticas base y predecir al ganador.</p>
+      </div>
+
+      <div class="battle-arena-stage">
+        
+        <div class="arena-mat">
+          
+          <!-- Contendiente 1 -->
+          <div class="fighter-pod" id="fighterPodA">
+            <div class="fighter-slot-empty" id="fighterEmptyA">
+              <span class="slot-number">1</span>
+              <p>Elige al Contendiente 1 en la Pokédex</p>
+            </div>
+            <div class="fighter-card" id="fighterCardA" style="display:none">
+              <!-- JS renderiza contendiente A -->
+            </div>
+          </div>
+
+          <!-- VS Badge Central con Efecto de Rayo -->
+          <div class="arena-vs-center">
+            <div class="vs-circle">VS</div>
+            <button id="doBattleBtn" class="btn-battle-start" disabled>¡INICIAR DUELO!</button>
+          </div>
+
+          <!-- Contendiente 2 -->
+          <div class="fighter-pod" id="fighterPodB">
+            <div class="fighter-slot-empty" id="fighterEmptyB">
+              <span class="slot-number">2</span>
+              <p>Elige al Contendiente 2 en la Pokédex</p>
+            </div>
+            <div class="fighter-card" id="fighterCardB" style="display:none">
+              <!-- JS renderiza contendiente B -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Resultado y Comparativa de Barras -->
+        <div id="battleVerdict" class="battle-verdict-box" style="display:none">
+          <!-- JS inyecta resultado y ganador -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECCIÓN MI EQUIPO PARA LA LIGA (6 Poké Balls) -->
+    <section id="my-team" class="team-section">
+      <div class="team-container">
+        
+        <div class="team-header">
+          <div>
+            <div class="section-kicker">CINTURÓN DE ENTRENADOR</div>
+            <h2 class="section-heading">MI EQUIPO PARA LA LIGA</h2>
+            <p class="section-subtext">Guarda hasta 6 Pokémon usando el icono <b>⚡</b> o <b>♥</b> en cualquier tarjeta.</p>
+          </div>
+
+          <div class="team-actions">
+            <button id="clearTeamBtn" class="btn-anime-ghost" type="button">Vaciar Equipo</button>
+            <button id="exportTeamBtn" class="btn-anime-secondary" type="button">📄 Exportar Ficha (.txt)</button>
+          </div>
+        </div>
+
+        <!-- 6 Ranuras de Poké Balls -->
+        <div class="team-belt-grid" id="teamBeltGrid">
+          <!-- JS generará las 6 ranuras -->
+        </div>
+
+        <!-- Resumen de Fuerza del Equipo -->
+        <div class="team-summary-bar">
+          <div class="team-stat-item">
+            <span>Integrantes:</span>
+            <b id="teamCountSummary">0 / 6</b>
+          </div>
+          <div class="team-stat-item">
+            <span>Poder Medio (CP):</span>
+            <b id="teamAverageCP">0 pts</b>
+          </div>
+          <div class="team-stat-item">
+            <span>Tipos Cubiertos:</span>
+            <b id="teamTypesCovered">0 tipos</b>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL HOLO-SCAN: Detalle Completo de la Pokédex -->
+  <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Escáner Pokédex">
+    <div id="pokemonModal" class="pokedex-holo-modal" role="document">
+      <!-- Inyectado dinámicamente -->
+    </div>
+  </div>
+
+  <!-- BARRA FLOTANTE DE COMPARACIÓN RÁPIDA -->
+  <aside id="compareBar" class="floating-compare-bar" aria-label="Contendientes de la Arena">
+    <div class="compare-info-text">Arena 2vs2:</div>
+    <div class="mini-slots">
+      <div id="slot0" class="mini-slot empty"><span>1</span></div>
+      <div id="slot1" class="mini-slot empty"><span>2</span></div>
+    </div>
+    <button id="goToArenaBtn" class="btn-anime-primary btn-sm">Ver en la Arena ➔</button>
+    <button id="clearCompareBtn" class="btn-close-mini" title="Limpiar selección">✕</button>
+  </aside>
+
+  <!-- FOOTER ESTILO POKÉDEX -->
+  <footer class="pokedex-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h3>POKÉDEX NEO LAB</h3>
+        <p>Inspirado en la serie animada Pokémon · Conectado en tiempo real a <a href="https://pokeapi.co" target="_blank" rel="noopener">PokeAPI.co</a></p>
+      </div>
+
+      <div class="footer-tech">
+        <span><b>Stack:</b> Node.js Backend + Vanilla JS Frontend + GSAP 3 + Anime.js</span>
+        <span id="backendStatusBadge" class="backend-status-badge">Verificando Backend…</span>
+      </div>
+
+      <div class="footer-copy">
+        Pokémon y todos sus nombres e ilustraciones son marcas registradas de Nintendo / Creatures Inc. / GAME FREAK inc.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/pokedex.js"></script>
+  
+  <noscript>
+    <div class="system-status error" style="display:block;margin:2rem auto;max-width:600px">
+      ⚠️ Por favor activa JavaScript en tu navegador para utilizar el sistema interactivo de la Pokédex.
+    </div>
+  </noscript>
+</body>
+</html>

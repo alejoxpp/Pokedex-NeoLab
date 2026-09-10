@@ -1,0 +1,24 @@
+{
+  "name": "pokedex-neo-backend",
+  "version": "1.0.0",
+  "description": "Backend Proxy y Caché para PokéAPI - Pokédex Landing Page",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [
+    "pokemon",
+    "pokeapi",
+    "express",
+    "pokedex"
+  ],
+  "author": "Pokédex NEO LAB",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
