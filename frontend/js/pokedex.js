@@ -168,7 +168,7 @@
         const current = document.documentElement.getAttribute('data-theme') || 'dark';
         const next = current === 'dark' ? 'light' : 'dark';
         applyTheme(next);
-        if (window.gsap) gsap.fromTo($themeToggle, { rotation: -30, scale: 0.8 }, { rotation: 0, scale: 1, duration: 0.35, ease: 'back.out(2)' });
+        if (window.gsap) gsap.fromTo($themeToggle, { rotation: -30, scale: 0.8 }, { rotation: 0, scale: 1, duration: 0.35, ease: 'back.out(2)', clearProps: 'transform' });
       });
     }
   }
@@ -211,7 +211,11 @@
       }
 
       if (window.gsap) {
-        gsap.from('#featuredCard', { y: 20, opacity: 0, duration: 0.8, ease: 'back.out(1.2)' });
+        // fromTo con clearProps: estado final explicito y sin residuos inline
+        gsap.fromTo('#featuredCard',
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: 'back.out(1.2)', clearProps: 'opacity,transform' }
+        );
       }
     } catch (e) {
       console.warn('No se pudo cargar el Pokémon destacado', e);
@@ -224,7 +228,12 @@
       if ($triviaImg) {
         $triviaImg.classList.remove('revealed');
       }
-      if ($triviaResult) $triviaResult.style.display = 'none';
+      if ($triviaResult) {
+        $triviaResult.style.display = 'none';
+        // Limpia residuos inline de animaciones previas (evita estados invisibles)
+        $triviaResult.style.opacity = '';
+        $triviaResult.style.transform = '';
+      }
       if ($triviaPrompt) $triviaPrompt.textContent = '¿Cuál es el nombre de este Pokémon?';
       if ($triviaOptions) $triviaOptions.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Cargando silueta...</p>';
 
@@ -289,9 +298,9 @@
       }
     }
 
-    if (window.gsap) {
-      gsap.from('#triviaResult', { y: 12, opacity: 0, duration: 0.4, ease: 'power2.out' });
-    }
+    // La animacion de entrada la aporta el CSS (.trivia-result { animation: fadeIn })
+    // al pasar de display:none a block. Un gsap.from() aqui competiria con esa animacion
+    // y, si el tween se interrumpe, dejaria opacity:0 en linea (elemento invisible).
   }
 
   if ($nextTriviaBtn) {
@@ -420,7 +429,7 @@
 
     if (window.gsap) {
       const cards = $pokedexGrid.querySelectorAll('.pokemon-card');
-      gsap.fromTo(cards, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, stagger: 0.025, ease: 'power2.out', overwrite: true });
+      gsap.fromTo(cards, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, stagger: 0.025, ease: 'power2.out', overwrite: true, clearProps: 'opacity,transform' });
     }
   }
 
@@ -632,7 +641,10 @@
       `;
 
       if (window.gsap) {
-        gsap.from('#battleVerdict', { y: 20, opacity: 0, duration: 0.5, ease: 'power2.out' });
+        gsap.fromTo('#battleVerdict',
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out', clearProps: 'opacity,transform' }
+        );
       }
       playCry(cpA >= cpB ? pA.id : pB.id);
     }
@@ -833,7 +845,7 @@
       });
 
       if (window.gsap) {
-        gsap.fromTo($modal, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(1.4)' });
+        gsap.fromTo($modal, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(1.4)', clearProps: 'opacity,transform' });
       }
 
       // El foco pasa al botón de cierre para navegación por teclado
