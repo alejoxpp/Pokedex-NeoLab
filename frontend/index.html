@@ -2,24 +2,23 @@
 <html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-  <meta name="description" content="Pokédex NEO LAB · Landing Page interactiva estilo Anime de Pokémon. Consume PokeAPI en tiempo real con GSAP, Anime.js, Arena 2vs2, Minijuego de Trivia y Equipo de 6 Pokémon.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pokédex NEO LAB · Landing Page interactiva estilo Anime de Pokémon. Consume PokeAPI en tiempo real con GSAP, Arena 2vs2, Minijuego de Trivia y Equipo de 6 Pokémon.">
   <meta name="theme-color" content="#E3350D">
   <title>Pokédex NEO LAB · Landing Page Anime & PokeAPI</title>
   
   <!-- Favicon Pokédex SVG -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23E3350D'/%3E%3Ccircle cx='50' cy='50' r='32' fill='none' stroke='%231a1a1a' stroke-width='7'/%3E%3Ccircle cx='50' cy='50' r='14' fill='%23fff' stroke='%231a1a1a' stroke-width='5'/%3E%3Ccircle cx='50' cy='50' r='6' fill='%23e8e8e8' stroke='%23aaa' stroke-width='1.5'/%3E%3C/svg%3E">
 
+  <!-- Fuentes Google (preconnect para evitar la cascada del @import) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <!-- Estilos -->
   <link rel="stylesheet" href="css/pokedex.css">
 
-  <!-- GSAP 3 & Plugins -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
-  <!-- Anime.js -->
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <!-- GSAP 3 core (defer: no bloquea el parseo; los scripts defer conservan el orden) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 </head>
 <body>
 
@@ -48,7 +47,7 @@
       </div>
 
       <!-- Menú de Navegación Rápida -->
-      <nav class="pokedex-nav" aria-label="Navegación principal">
+      <nav class="pokedex-nav" id="pokedexNav" aria-label="Navegación principal">
         <a href="#hero" class="nav-link active">Inicio</a>
         <a href="#trivia" class="nav-link">¿Quién es?</a>
         <a href="#showcase" class="nav-link">Pokédex</a>
@@ -68,6 +67,9 @@
         </div>
 
         <button id="themeToggle" class="btn-icon" aria-label="Cambiar tema claro/oscuro" title="Tema claro/oscuro">🌙</button>
+
+        <!-- Menú móvil (visible solo en pantallas pequeñas) -->
+        <button id="menuToggle" class="btn-icon menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="pokedexNav">☰</button>
       </div>
 
     </div>
@@ -405,7 +407,7 @@
       </div>
 
       <div class="footer-tech">
-        <span><b>Stack:</b> Node.js Backend + Vanilla JS Frontend + GSAP 3 + Anime.js</span>
+        <span><b>Stack:</b> Node.js Backend + Vanilla JS Frontend + GSAP 3</span>
         <span id="backendStatusBadge" class="backend-status-badge">Verificando Backend…</span>
       </div>
 
@@ -416,8 +418,8 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/api.js"></script>
-  <script src="js/pokedex.js"></script>
+  <script defer src="js/api.js"></script>
+  <script defer src="js/pokedex.js"></script>
   
   <noscript>
     <div class="system-status error" style="display:block;margin:2rem auto;max-width:600px">

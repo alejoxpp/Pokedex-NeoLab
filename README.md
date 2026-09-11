@@ -15,7 +15,6 @@
 ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
 ![PokeAPI](https://img.shields.io/badge/PokeAPI-E3350D?style=for-the-badge&logo=pokemon&logoColor=white)
 ![GSAP](https://img.shields.io/badge/GSAP-0AE448?style=for-the-badge&logo=greensock&logoColor=black)
-![Anime.js](https://img.shields.io/badge/Anime.js-FF2E93?style=for-the-badge)
 
 </div>
 
@@ -89,7 +88,6 @@ npm run dev
 
 ### 🎬 Animaciones Premium
 - **GSAP** — Flip, ScrollTrigger, stagger
-- **Anime.js** — transiciones fluidas
 - Luces LED animadas estilo Pokédex del anime
 
 </td>
@@ -218,7 +216,7 @@ npm run dev
 | **Estilos** | CSS3 Vanilla | Tema dual + Variables + Animaciones |
 | **Lógica** | JavaScript ES6+ | SPA sin framework |
 | **Backend** | Express.js | Proxy API + Caché |
-| **Animación** | GSAP 3.12 + Anime.js 3.2 | Transiciones premium |
+| **Animación** | GSAP 3.12 | Transiciones premium |
 | **Tipografía** | Space Grotesk + Inter | Fuentes Google modernas |
 | **Datos** | PokeAPI v2 | 1025+ Pokémon en tiempo real |
 

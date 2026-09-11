@@ -1,7 +1,7 @@
 /**
  * POKÉDEX NEO LAB · js/pokedex.js
  * Lógica interactiva de la Landing Page estilo Anime Pokémon
- * Consumo con ApiClient (Backend Node.js / PokeAPI Fallback) + GSAP 3 + Anime.js
+ * Consumo con ApiClient (Backend Node.js / PokeAPI Fallback) + GSAP 3
  */
 
 (function () {
@@ -750,9 +750,11 @@
 
   // 7. MODAL HOLO-SCAN
   let isShinyHolo = false;
+  let lastFocusedElement = null; // Para restaurar el foco al cerrar el modal
   async function openHoloScan(idOrName) {
     if (!$modalBackdrop || !$modal) return;
     isShinyHolo = false;
+    lastFocusedElement = document.activeElement;
     $modalBackdrop.classList.add('open');
     $modalBackdrop.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -833,6 +835,9 @@
       if (window.gsap) {
         gsap.fromTo($modal, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(1.4)' });
       }
+
+      // El foco pasa al botón de cierre para navegación por teclado
+      document.getElementById('closeHoloBtn')?.focus();
     } catch (e) {
       $modal.innerHTML = '<div style="padding:2rem;text-align:center">Error cargando información de la Pokédex.</div>';
     }
@@ -840,14 +845,36 @@
 
   function closeHoloScan() {
     if (!$modalBackdrop) return;
+    if (!$modalBackdrop.classList.contains('open')) return;
     $modalBackdrop.classList.remove('open');
-    $modalBackdrop.setAttribute('aria-hidden', 'false');
+    $modalBackdrop.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    // Restaurar el foco al elemento que abrió el modal
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
+    lastFocusedElement = null;
   }
 
   if ($modalBackdrop) {
     $modalBackdrop.addEventListener('click', (e) => {
       if (e.target === $modalBackdrop) closeHoloScan();
+    });
+
+    // Focus trap básico: el Tab no sale del modal mientras está abierto
+    $modalBackdrop.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusables = $modalBackdrop.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
   }
 
@@ -918,6 +945,30 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeHoloScan();
     });
+
+    // Menú móvil: desplegable de navegación en pantallas pequeñas
+    const $menuToggle = document.getElementById('menuToggle');
+    const $nav = document.getElementById('pokedexNav');
+    if ($menuToggle && $nav) {
+      const closeMobileNav = () => {
+        $nav.classList.remove('open');
+        $menuToggle.setAttribute('aria-expanded', 'false');
+        $menuToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+        $menuToggle.textContent = '☰';
+      };
+
+      $menuToggle.addEventListener('click', () => {
+        const open = $nav.classList.toggle('open');
+        $menuToggle.setAttribute('aria-expanded', String(open));
+        $menuToggle.setAttribute('aria-label', open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+        $menuToggle.textContent = open ? '✕' : '☰';
+      });
+
+      // Al navegar a una sección, el desplegable se cierra
+      $nav.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', closeMobileNav);
+      });
+    }
   }
 
   // 9. VERIFICACIÓN DE ESTADO DEL BACKEND

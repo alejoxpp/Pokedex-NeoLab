@@ -1,10 +1,8 @@
 /* ==========================================================
    POKÉDEX NEO LAB · Landing Page Anime & PokeAPI
    Estilo fiel a la Serie Animada y Pokédex Clásica de Ash
-   GSAP + Anime.js Ready · Paleta Oficial Pokémon
+   GSAP Ready · Paleta Oficial Pokémon
    ========================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=Inter:wght@400;600;700;800;900&display=swap');
 
 :root {
   /* Paleta Oficial Anime Pokémon */
@@ -28,8 +26,16 @@
   --border-yellow: rgba(255, 203, 5, 0.35);
   --text-main: #f5f8ff;
   --text-muted: #95a5c6;
+  --text-faint: rgba(255, 255, 255, 0.4);
   --shadow-main: 0 16px 36px rgba(0, 0, 0, 0.55);
-  
+
+  /* Superficies compuestas (tokens para evitar literales oscuros hardcodeados) */
+  --panel-gradient-end: #0b1428;
+  --footer-gradient-end: #060a14;
+  --overlay-soft: rgba(0, 0, 0, 0.22);
+  --overlay-strong: rgba(0, 0, 0, 0.38);
+  --backdrop-scrim: rgba(4, 8, 20, 0.8);
+
   --radius-lg: 20px;
   --radius-md: 14px;
   --radius-sm: 8px;
@@ -49,7 +55,15 @@
   --border-yellow: rgba(255, 203, 5, 0.6);
   --text-main: #131722;
   --text-muted: #5e6678;
+  --text-faint: rgba(19, 23, 34, 0.45);
   --shadow-main: 0 14px 30px rgba(53, 100, 174, 0.12);
+
+  /* Superficies compuestas adaptadas al tema claro */
+  --panel-gradient-end: #e8e2d2;
+  --footer-gradient-end: #e0d8c4;
+  --overlay-soft: rgba(19, 23, 34, 0.08);
+  --overlay-strong: rgba(19, 23, 34, 0.16);
+  --backdrop-scrim: rgba(53, 40, 20, 0.55);
 }
 
 /* Reset Global */
@@ -62,6 +76,10 @@
 html {
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
+  /* Compensa el topbar sticky (~72px) al navegar con anclas internas */
+  scroll-padding-top: 92px;
+  scrollbar-color: var(--surface-2) var(--bg-2);
+  scrollbar-width: thin;
 }
 
 body {
@@ -108,7 +126,6 @@ main {
   background: linear-gradient(180deg, var(--poke-red) 0%, var(--poke-red-dark) 100%);
   border-bottom: 4px solid var(--poke-yellow);
   box-shadow: 0 8px 24px rgba(227, 53, 13, 0.45);
-  backdrop-filter: blur(12px);
 }
 
 .topbar-container {
@@ -236,7 +253,7 @@ main {
   font-size: 0.85rem;
   padding: 0.4rem 0.8rem;
   border-radius: var(--radius-pill);
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -341,6 +358,11 @@ main {
   transform: scale(1.08);
 }
 
+/* Botón de menú móvil (oculto en escritorio; visible desde el breakpoint 768px) */
+.menu-toggle {
+  display: none;
+}
+
 /* ==========================================================
    HERO SECTION (Anime Vibe)
    ========================================================== */
@@ -396,6 +418,7 @@ main {
 .text-gradient {
   background: linear-gradient(135deg, var(--poke-yellow) 20%, #ff8a00 80%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 35px rgba(255, 203, 5, 0.35);
 }
@@ -507,7 +530,7 @@ main {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .btn-anime-ghost:hover {
@@ -665,7 +688,7 @@ main {
 .featured-meta {
   display: flex;
   gap: 0.8rem;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--overlay-soft);
   border: 1px solid var(--border-line);
   padding: 0.45rem 0.75rem;
   border-radius: var(--radius-sm);
@@ -750,7 +773,7 @@ main {
   padding: 4.5rem 1.2rem;
   background: 
     radial-gradient(circle at 50% 50%, rgba(53, 100, 174, 0.25) 0%, transparent 75%),
-    linear-gradient(180deg, rgba(10, 16, 32, 0.8) 0%, rgba(13, 23, 46, 0.95) 100%);
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
   border-top: 4px solid var(--poke-yellow);
   border-bottom: 4px solid var(--poke-yellow);
   position: relative;
@@ -779,8 +802,8 @@ main {
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 900;
   letter-spacing: -0.5px;
-  color: #fff;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 229, 255, 0.5);
+  color: var(--text-main);
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 0 25px rgba(0, 229, 255, 0.35);
 }
 
 .trivia-stage {
@@ -834,7 +857,7 @@ main {
 }
 
 .trivia-silhouette.revealed {
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6)) !important;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6));
   transform: scale(1.06);
 }
 
@@ -879,7 +902,7 @@ main {
   text-transform: capitalize;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.18s ease;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
 }
 
 .btn-trivia-opt:hover {
@@ -889,22 +912,22 @@ main {
 }
 
 .btn-trivia-opt.correct {
-  background: linear-gradient(135deg, #2ecc71, #1e824c) !important;
-  color: #fff !important;
-  border-color: #fff !important;
-  box-shadow: 0 0 20px rgba(46, 204, 113, 0.8) !important;
+  background: linear-gradient(135deg, #2ecc71, #1e824c);
+  color: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 20px rgba(46, 204, 113, 0.8);
 }
 
 .btn-trivia-opt.wrong {
-  background: linear-gradient(135deg, #e74c3c, #962d22) !important;
-  color: #fff !important;
-  border-color: #fff !important;
+  background: linear-gradient(135deg, #e74c3c, #962d22);
+  color: #fff;
+  border-color: #fff;
   opacity: 0.6;
 }
 
 /* Resultado */
 .trivia-result {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--overlay-strong);
   border: 1px solid var(--border-yellow);
   border-radius: var(--radius-md);
   padding: 1.2rem;
@@ -1023,7 +1046,7 @@ main {
 }
 
 .results-badge {
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--overlay-strong);
   border: 1px solid var(--border-yellow);
   padding: 0.45rem 0.9rem;
   border-radius: var(--radius-pill);
@@ -1065,10 +1088,10 @@ main {
 }
 
 .type-chip.active {
-  background: linear-gradient(135deg, var(--poke-red), #ff4d2e) !important;
-  color: #fff !important;
-  border-color: #fff !important;
-  box-shadow: 0 4px 14px rgba(227, 53, 13, 0.5) !important;
+  background: linear-gradient(135deg, var(--poke-red), #ff4d2e);
+  color: #fff;
+  border-color: #fff;
+  box-shadow: 0 4px 14px rgba(227, 53, 13, 0.5);
 }
 
 /* Grilla de Tarjetas */
@@ -1100,8 +1123,8 @@ main {
 }
 
 .pokemon-card.in-arena {
-  border-color: var(--poke-red) !important;
-  box-shadow: 0 0 0 2px var(--poke-red), 0 16px 36px rgba(0, 0, 0, 0.5) !important;
+  border-color: var(--poke-red);
+  box-shadow: 0 0 0 2px var(--poke-red), 0 16px 36px rgba(0, 0, 0, 0.5);
 }
 
 .card-top-pod {
@@ -1159,7 +1182,6 @@ main {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
   background: rgba(0, 0, 0, 0.75);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1243,7 +1265,7 @@ main {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--overlay-soft);
   border: 1px solid var(--border-line);
   border-radius: var(--radius-sm);
   padding: 0.35rem 0.25rem;
@@ -1325,11 +1347,11 @@ main {
 }
 
 .battle-arena-stage {
-  background: linear-gradient(180deg, var(--surface) 0%, #0a1122 100%);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--panel-gradient-end) 100%);
   border: 3px solid var(--border-yellow);
   border-radius: var(--radius-lg);
   padding: 2rem;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
 }
 
 .arena-mat {
@@ -1464,7 +1486,7 @@ main {
 
 .stat-bar-box {
   height: 10px;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--overlay-strong);
   border-radius: var(--radius-pill);
   overflow: hidden;
   border: 1px solid var(--border-line);
@@ -1587,7 +1609,7 @@ main {
 .team-summary-bar {
   display: flex;
   justify-content: space-around;
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--overlay-strong);
   border: 1px solid var(--border-line);
   border-radius: var(--radius-md);
   padding: 0.9rem;
@@ -1612,14 +1634,15 @@ main {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(4, 8, 20, 0.8);
+  background: var(--backdrop-scrim);
   backdrop-filter: blur(12px);
   display: none;
   place-items: center;
   padding: 1.2rem;
   z-index: 50;
   opacity: 0;
-  transition: opacity 0.25s ease;
+  /* allow-discrete anima el paso display:none <-> display:grid */
+  transition: opacity 0.25s ease, display 0.25s ease allow-discrete, overlay 0.25s ease allow-discrete;
 }
 
 .modal-backdrop.open {
@@ -1627,14 +1650,21 @@ main {
   opacity: 1;
 }
 
+/* Fade real de entrada (progresivo: en navegadores sin soporte, el modal aparece sin fade) */
+@starting-style {
+  .modal-backdrop.open {
+    opacity: 0;
+  }
+}
+
 .pokedex-holo-modal {
   width: min(880px, 96vw);
   max-height: 90vh;
   overflow-y: auto;
-  background: linear-gradient(180deg, var(--surface) 0%, #0b1428 100%);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--panel-gradient-end) 100%);
   border: 3px solid var(--poke-yellow);
   border-radius: var(--radius-lg);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 30px rgba(227, 53, 13, 0.3);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 30px rgba(227, 53, 13, 0.3);
   position: relative;
 }
 
@@ -1736,7 +1766,7 @@ main {
 }
 
 .holo-desc-box {
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--overlay-strong);
   border: 1px solid var(--border-line);
   border-radius: var(--radius-sm);
   padding: 0.75rem;
@@ -1798,15 +1828,16 @@ main {
   bottom: 18px;
   left: 50%;
   transform: translateX(-50%) translateY(140px);
-  background: linear-gradient(180deg, var(--surface) 0%, #0d172e 100%);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg-2) 100%);
   border: 2px solid var(--poke-yellow);
   border-radius: var(--radius-pill);
   padding: 0.5rem 0.9rem;
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
   z-index: 35;
+  max-width: calc(100vw - 24px);
   transition: transform 0.3s var(--ease-spring);
 }
 
@@ -1853,7 +1884,7 @@ main {
    FOOTER POKÉDEX
    ========================================================== */
 .pokedex-footer {
-  background: linear-gradient(180deg, var(--surface) 0%, #060a14 100%);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--footer-gradient-end) 100%);
   border-top: 3px solid var(--poke-yellow);
   padding: 3rem 1.2rem 2.5rem;
   margin-top: 4rem;
@@ -1907,7 +1938,35 @@ main {
 
 .footer-copy {
   font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-faint);
+}
+
+/* ==========================================================
+   ACCESIBILIDAD
+   ========================================================== */
+/* Foco visible consistente para navegación por teclado */
+:focus-visible {
+  outline: 3px solid var(--poke-cyan);
+  outline-offset: 2px;
+}
+
+.pokedex-topbar :focus-visible {
+  outline-color: #fff;
+}
+
+/* Respeto a usuarios sensibles al movimiento */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ==========================================================
@@ -1916,6 +1975,9 @@ main {
 @media (max-width: 980px) {
   .hero-container {
     grid-template-columns: 1fr;
+  }
+  .hero-showcase {
+    order: -1;
   }
   .trivia-stage {
     grid-template-columns: 1fr;
@@ -1931,12 +1993,67 @@ main {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  /* La nav horizontal se sustituye por un desplegable reutilizando el mismo elemento */
   .pokedex-nav {
     display: none;
   }
+
+  .menu-toggle {
+    display: grid;
+  }
+
+  .pokedex-nav.open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, var(--poke-red-dark) 0%, var(--poke-red-deep) 100%);
+    border-bottom: 4px solid var(--poke-yellow);
+    padding: 0.8rem 1.2rem 1.2rem;
+    gap: 0.4rem;
+    z-index: 45;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .pokedex-nav.open .nav-link {
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .mini-leds {
+    display: none;
+  }
+
+  .brand-tagline {
+    display: none;
+  }
+
   .search-box input {
-    width: 120px;
+    width: 130px;
+  }
+
+  /* La fila de stats comparadas usa columnas fijas: se compactan en pantallas pequeñas */
+  .battle-stat-row {
+    grid-template-columns: 44px 1fr 56px 1fr 44px;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+  }
+
+  /* La barra flotante puede desbordarse: se permite el salto de línea */
+  .floating-compare-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (max-width: 640px) {
+  .search-box input {
+    width: 110px;
   }
   .hero-title {
     font-size: 2rem;
@@ -1950,6 +2067,21 @@ main {
   }
   .trivia-options-grid {
     grid-template-columns: 1fr;
+  }
+  .featured-actions {
+    grid-template-columns: 1fr;
+  }
+  .holo-stat-item {
+    grid-template-columns: 70px 1fr 34px;
+    gap: 0.5rem;
+  }
+  .battle-stat-row {
+    grid-template-columns: 34px 1fr 44px 1fr 34px;
+    font-size: 0.7rem;
+  }
+  .team-summary-bar {
+    flex-direction: column;
+    align-items: center;
   }
 }
 
